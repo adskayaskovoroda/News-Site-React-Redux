@@ -1,0 +1,34 @@
+.news-card {
+    width: 720px;
+}
+
+.news-card__media {
+    height: 400px;
+}
+
+.news-card__controls {
+    display: grid;
+    grid-template:
+        "... ..." minmax(48px, auto)
+        /auto 48px;
+    align-items: center;
+}
+
+.news-card .news-card__title {
+    width: calc(100% - 48px);
+    margin: 0 10px 0 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-card .MuiTypography-paragraph {
+    word-break: break-all;
+}
+
+.news-card .expandOpen {
+    transform: rotate(180deg);
+}
+
+.news-card .news-card__avatar {
+    background: #f44336;
+}
