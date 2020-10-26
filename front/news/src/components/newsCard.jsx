@@ -44,10 +44,10 @@ function NewsCard({ data }) {
       <CardHeader
         avatar={
           <Avatar aria-label="recipe" className={classes.avatar}>
-            {data.username.slice(0,2).toLocaleUpperCase()}
+            {data.author}
           </Avatar>
         }
-        title={data.username}
+        title={data.author}
       />
       <CardMedia
         className="news-card__media"
@@ -82,7 +82,7 @@ function NewsCard({ data }) {
 NewsCard.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired,
+    author: PropTypes.number.isRequired,
     image: PropTypes.string,
     title: PropTypes.string,
     content: PropTypes.string,
