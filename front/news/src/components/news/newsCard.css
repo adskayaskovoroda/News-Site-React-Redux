@@ -24,3 +24,11 @@
 .news-card .MuiTypography-paragraph {
     word-break: break-all;
 }
+
+.news-card .expandOpen {
+    transform: rotate(180deg);
+}
+
+.news-card .news-card__avatar {
+    background: #f44336;
+}

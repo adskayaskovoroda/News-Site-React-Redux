@@ -10,10 +10,9 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import '../styles/newsCard.css';
+import './newsCard.css';
 
 const useStyles = makeStyles((theme) => ({
   expand: {
@@ -22,12 +21,6 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
   },
 }));
 
@@ -43,7 +36,7 @@ function NewsCard({ data }) {
     <Card className="news-card" variant="outlined">
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar className="news-card__avatar">
             {data.author}
           </Avatar>
         }
@@ -58,9 +51,7 @@ function NewsCard({ data }) {
           {data.title}
         </Typography>
         <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
+          className={clsx(classes.expand, {'expandOpen': expanded,})}
           onClick={handleExpandClick}
           aria-expanded={expanded}
           aria-label="show more"

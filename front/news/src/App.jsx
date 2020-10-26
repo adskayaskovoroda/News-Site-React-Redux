@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { requestPosts } from './store/actions/actionCreators';
-import MainPage from './pages/mainPage';
+import MainPage from './components/mainPage/mainPage';
+import './app.css';
 
-function App({ requestPosts }) {
+function App() {
+  const dispatch = useDispatch()
   useEffect(() => {
-    requestPosts();
+    dispatch(requestPosts())
   });
 
   return (
@@ -13,8 +15,4 @@ function App({ requestPosts }) {
   );
 }
 
-const mapDispatchToProps = {
-  requestPosts,
-}
-
-export default connect(null, mapDispatchToProps)(App);
+export default App;

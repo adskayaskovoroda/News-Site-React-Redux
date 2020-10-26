@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/newsList.css';
+import './newsList.css';
 
 export default function NewsList(props) {
   return (

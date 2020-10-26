@@ -5,13 +5,14 @@ import {
 } from './actions/types';
 import axios from 'axios'; 
 
+const SERVER_URL = 'http://127.0.0.1:8000';
+
 export function* sagaWatcher() {
   yield takeEvery(REQUEST_POSTS, sagaWorker);
 }
 
 function* sagaWorker() {
   const payload = yield call(fetchPosts);
-  console.log(payload);
   yield put({
     type: GET_POSTS,
     payload,
@@ -19,6 +20,6 @@ function* sagaWorker() {
 }
 
 async function fetchPosts() {
-  const response = await axios.get('http://127.0.0.1:8000');
+  const response = await axios.get(SERVER_URL);
   return response.data;
 }
