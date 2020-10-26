@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.db.models import Q
+from django.contrib.postgres.aggregates.general import ArrayAgg
 
 from ..models import News, Tag
 from .tag_serializer import TagSerializer
@@ -12,11 +13,8 @@ class NewsSerializer(serializers.ModelSerializer):
             query = Q(id=-1)
             for tag in obj.tags.all():
                 query.add(Q(id=tag.id), Q.OR)
-            serialized_data = TagSerializer(Tag.objects.filter(query), many=True).data
-            tags_data = []
-            for item in serialized_data:
-                tags_data += [dict(item)['title']]
-            return tags_data
+            tags_data = Tag.objects.filter(query).aggregate(arr=ArrayAgg('title'))
+            return tags_data['arr']
 
     class Meta:
         model = News
