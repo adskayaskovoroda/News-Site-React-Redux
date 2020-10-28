@@ -130,7 +130,7 @@ export default function TopPanel() {
               onChange={handleFilterChange}
               label="Filter"
             >
-              {FILTER_TYPES.map(el => <MenuItem value={el.value}>{el.text}</MenuItem>)}
+              {FILTER_TYPES.map((el, i) => <MenuItem value={el.value} key={i}>{el.text}</MenuItem>)}
             </Select>
           </FormControl>
           <IconButton onClick={sendSearchRequest}>
