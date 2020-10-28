@@ -37,10 +37,10 @@ function NewsCard({ data }) {
       <CardHeader
         avatar={
           <Avatar className="news-card__avatar">
-            {data.author}
+            {data.author_data.id}
           </Avatar>
         }
-        title={data.author}
+        title={data.author_data.username}
       />
       <CardMedia
         className="news-card__media"
@@ -73,12 +73,15 @@ function NewsCard({ data }) {
 NewsCard.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    author: PropTypes.number.isRequired,
+    author_data: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      username: PropTypes.string.isRequired,
+    }).isRequired,
     image: PropTypes.string,
     title: PropTypes.string,
     content: PropTypes.string,
-    tagsList: PropTypes.arrayOf(PropTypes.string),
+    tags_list: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
 }
 
-export default NewsCard;
+export default React.memo(NewsCard);

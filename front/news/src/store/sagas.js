@@ -11,15 +11,15 @@ export function* sagaWatcher() {
   yield takeEvery(REQUEST_POSTS, sagaWorker);
 }
 
-function* sagaWorker() {
-  const payload = yield call(fetchPosts);
+function* sagaWorker(action) {
+  const payload = yield call(fetchPosts, action.url);
   yield put({
     type: GET_POSTS,
     payload,
   });
 }
 
-async function fetchPosts() {
-  const response = await axios.get(SERVER_URL);
+async function fetchPosts(url) {
+  const response = await axios.get(SERVER_URL + url);
   return response.data;
 }
