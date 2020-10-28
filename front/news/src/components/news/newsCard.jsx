@@ -73,7 +73,10 @@ function NewsCard({ data }) {
 NewsCard.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    author_data: PropTypes.number.isRequired,
+    author_data: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      username: PropTypes.string.isRequired,
+    }).isRequired,
     image: PropTypes.string,
     title: PropTypes.string,
     content: PropTypes.string,

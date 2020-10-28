@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux'
 import { requestPosts } from '../../store/actions/actionCreators';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -18,6 +17,21 @@ import SearchIcon from '@material-ui/icons/Search';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 import './topPanel.css';
+
+const FILTER_TYPES = [
+  {
+    text: 'All',
+    value: 'all',
+  },
+  {
+    text: 'Author',
+    value: 'author',
+  },
+  {
+    text: 'Tag',
+    value: 'tags',
+  },
+];
 
 const useStyles = makeStyles((theme) => ({
   menuButton: {
@@ -69,10 +83,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function TopPanel() {
-  const history = useHistory();
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [filterType, setFilterType] = React.useState('all');
+  const [filterType, setFilterType] = React.useState(FILTER_TYPES[0].value);
   const [searchBody, setSearchBody] = React.useState('')
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
@@ -117,9 +130,7 @@ export default function TopPanel() {
               onChange={handleFilterChange}
               label="Filter"
             >
-              <MenuItem value={'all'}>All</MenuItem>
-              <MenuItem value={'author'}>Author</MenuItem>
-              <MenuItem value={'tags'}>Tag</MenuItem>
+              {FILTER_TYPES.map(el => <MenuItem value={el.value}>{el.text}</MenuItem>)}
             </Select>
           </FormControl>
           <IconButton onClick={sendSearchRequest}>
