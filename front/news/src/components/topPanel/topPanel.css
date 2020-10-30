@@ -1,0 +1,19 @@
+.top-panel {
+    flex-grow: 1;
+}
+
+.top-panel .top-panel__login {
+    margin-left: auto;
+}
+
+.top-panel .MuiOutlinedInput-input {
+    padding: 8.5px 14px 9.5px;
+}
+
+.top-panel .top-panel__send-search {
+    color: #fff;
+}
+
+.top-panel__home {
+    cursor: pointer;
+}
