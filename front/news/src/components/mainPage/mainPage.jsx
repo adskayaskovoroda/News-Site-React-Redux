@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Pagination from '@material-ui/lab/Pagination';
 import TopPanel from '../topPanel/topPanel';
@@ -13,6 +13,7 @@ const PAGE_CAP = 1;
 function MainPage() {
   const posts = useSelector(state => state.posts);
   const [pageItems, setPage, binder] = usePagination(posts, PAGE_CAP);
+  useEffect(() => setPage(1), [posts]);
 
   return (
     <>
@@ -27,7 +28,7 @@ function MainPage() {
       <NewsList>
         {
           pageItems.length
-            ? pageItems.map(el => <NewsCard data={el}/>)
+            ? pageItems.map(el => <NewsCard data={el} key={el.id} />)
             : <div className="no-posts">There Are No Posts Here!</div>
         }
       </NewsList>

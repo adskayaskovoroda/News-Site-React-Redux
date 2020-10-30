@@ -13,7 +13,7 @@ function App() {
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(requestPosts())
-  });
+  }, []);
 
   return (
     <Router>
