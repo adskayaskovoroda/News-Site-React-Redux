@@ -1,0 +1,9 @@
+.pagination {
+    display: grid;
+    justify-items: center;
+}
+
+.no-posts {
+    font-family: Roboto;
+    font-size: 2rem;
+}

@@ -1,5 +1,6 @@
 .top-panel {
     flex-grow: 1;
+    margin-bottom: 50px;
 }
 
 .top-panel .top-panel__login {

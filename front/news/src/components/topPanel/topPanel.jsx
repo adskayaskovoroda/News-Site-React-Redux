@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { requestPosts } from '../../store/actions/actionCreators';
 import { fade, makeStyles } from '@material-ui/core/styles';
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TopPanel() {
+function TopPanel({ onSearch }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [filterType, setFilterType] = React.useState(FILTER_TYPES[0].value);
@@ -95,6 +96,7 @@ export default function TopPanel() {
   };
   const sendSearchRequest = () => {
     dispatch(requestPosts(`/?filter=${filterType}&search=${searchBody}`));
+    onSearch();
   };
 
   return (
@@ -130,7 +132,7 @@ export default function TopPanel() {
               onChange={handleFilterChange}
               label="Filter"
             >
-              {FILTER_TYPES.map(el => <MenuItem value={el.value}>{el.text}</MenuItem>)}
+              {FILTER_TYPES.map((el, i) => <MenuItem value={el.value} key={i}>{el.text}</MenuItem>)}
             </Select>
           </FormControl>
           <IconButton onClick={sendSearchRequest}>
@@ -142,3 +144,13 @@ export default function TopPanel() {
     </div>
   );
 }
+
+TopPanel.propTypes = {
+  onSearch: PropTypes.func,
+};
+
+TopPanel.defaultProps = {
+  onSearch: () => {},
+};
+
+export default TopPanel;
