@@ -18,10 +18,12 @@ class NewsSerializer(serializers.ModelSerializer):
 
     author_data = serializers.SerializerMethodField()
     def get_author_data(self, obj):
+        request = self.context.get('request')
         author = User.objects.get(pk=obj.author.id)
         author_data = {
             'id': author.id,
             'username': author.name,
+            'avatar': request.build_absolute_uri(author.avatar.url),
         }
         return author_data
 
