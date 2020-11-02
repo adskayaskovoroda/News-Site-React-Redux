@@ -36,15 +36,13 @@ function NewsCard({ data }) {
     <Card className="news-card" variant="outlined">
       <CardHeader
         avatar={
-          <Avatar className="news-card__avatar">
-            {data.author_data.id}
-          </Avatar>
+          <Avatar className="news-card__avatar" src={data.author_data.avatar} />
         }
         title={data.author_data.username}
       />
       <CardMedia
         className="news-card__media"
-        image={`/img/${data.image || 'noImage.jpg'}`}
+        image={data.image}
       />
       <CardContent className="news-card__controls">
         <Typography gutterBottom variant="h5" component="h2" className='news-card__title'>
