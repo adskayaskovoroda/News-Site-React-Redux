@@ -1,5 +1,7 @@
 from rest_framework import viewsets, filters
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
 
 from ..serializers import NewsSerializer
 from ..models import News
@@ -19,5 +21,6 @@ class NewsSearch(filters.SearchFilter):
 class NewsViewSet(viewsets.ModelViewSet):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
+    permission_classes = [IsAuthenticated]
     filter_backends = [NewsSearch, filters.OrderingFilter]
     ordering = ['id']
