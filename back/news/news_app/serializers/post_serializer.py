@@ -1,8 +1,9 @@
 from rest_framework import serializers
 from django.db.models import Q
 from django.contrib.postgres.aggregates.general import ArrayAgg
-from ..models import *
-
+from ..models import Tag, Post
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 class PostSerializer(serializers.ModelSerializer):
     author_data = serializers.SerializerMethodField()

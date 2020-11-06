@@ -8,11 +8,11 @@ from .views import PostViewSet
 
 
 router = SimpleRouter()
-router.register(r'posts', PostViewSet)
+router.register('posts', PostViewSet)
 
 urlpatterns = [
-    url(r'^auth/google/', include('google_auth.urls')),
+    url('auth/google/', include('google_auth.urls')),
     url('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    url(r'^', include(router.urls)),
+    url('', include(router.urls)),
 ]

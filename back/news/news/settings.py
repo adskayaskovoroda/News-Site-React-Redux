@@ -63,10 +63,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
-# GOOGLE_AUTH_CLIENT_ID = '399978654308-3e8ua5aad8pbsmrgm6ufav37omiubn3f.apps.googleusercontent.com'
-# GOOGLE_AUTH_CLIENT_SECRET = 'kE3ewEIaHE-BlmbRYRzm_Yu7'
-# GOOGLE_AUTH_AUTHORIZED_DOMAINS = ['gmail.com','dunice.net']
-# GOOGLE_AUTH_REDIRECT_URL = 'http://127.0.0.1:8000/posts/'
+GOOGLE_AUTH_CLIENT_ID = '399978654308-3e8ua5aad8pbsmrgm6ufav37omiubn3f.apps.googleusercontent.com'
+GOOGLE_AUTH_CLIENT_SECRET = 'kE3ewEIaHE-BlmbRYRzm_Yu7'
+GOOGLE_AUTH_AUTHORIZED_DOMAINS = ['gmail.com','dunice.net']
+GOOGLE_AUTH_REDIRECT_URL = 'http://127.0.0.1:8000/posts/'
 
 AUTH_USER_MODEL = 'news_app.User'
 
