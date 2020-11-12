@@ -2,9 +2,7 @@ from django import forms
 from django.contrib import admin
 from django import forms
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Tag, Post
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from .models import Tag, Post, User
 
 
 class UserChangeForm(forms.ModelForm):
@@ -18,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('username', 'avatar')}),
+        ('Personal info', {'fields': ('username', 'full_name', 'avatar')}),
     )
 
     add_fieldsets = (

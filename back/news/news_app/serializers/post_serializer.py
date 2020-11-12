@@ -1,18 +1,15 @@
 from rest_framework import serializers
 from django.db.models import Q
 from django.contrib.postgres.aggregates.general import ArrayAgg
-from ..models import Tag, Post
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from ..models import Tag, Post, User
 
 class PostSerializer(serializers.ModelSerializer):
     author_data = serializers.SerializerMethodField()
     def get_author_data(self, obj):
         request = self.context.get('request')
         author = User.objects.get(pk=obj.author.id)
-        if not author.avatar:
-            avatar_url = None
-        else:
+        avatar_url = str(author.avatar)
+        if not avatar_url.startswith('https://'):
             avatar_url = request.build_absolute_uri(author.avatar.url)
         author_data = {
             'id': author.id,

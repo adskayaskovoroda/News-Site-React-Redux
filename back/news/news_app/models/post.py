@@ -1,8 +1,7 @@
 from django.db import models
 from django.conf import settings
 from .tag import Tag
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from .user import User
 
 
 class Post(models.Model):
