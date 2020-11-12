@@ -1,18 +1,19 @@
 from django.conf.urls import url, include
 from rest_framework.routers import SimpleRouter
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
+from rest_framework_simplejwt.views import TokenRefreshView
+from .views import (
+    PostViewSet,
+    UserViewSet,
+    CustomTokenObtainPairView,
 )
-from .views import PostViewSet
 
 
 router = SimpleRouter()
 router.register('posts', PostViewSet)
+router.register('users', UserViewSet)
 
 urlpatterns = [
-    url('auth/google/', include('rest_framework_social_oauth2.urls')),
-    url('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     url('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    url('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     url('', include(router.urls)),
 ]

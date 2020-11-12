@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,11 +42,6 @@ INSTALLED_APPS = [
     'news_app',
     'corsheaders',
     'rest_framework',
-
-    # OAuth2
-    'oauth2_provider',
-    'social_django',
-    'rest_framework_social_oauth2',
 ]
 
 # ====================================================================
@@ -55,39 +51,22 @@ MEDIA_URL = '/media/'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
 }
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth2',
-    'rest_framework_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
-
-# google
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '399978654308-3e8ua5aad8pbsmrgm6ufav37omiubn3f.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'kE3ewEIaHE-BlmbRYRzm_Yu7'
-
-# django admin
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'rgC2vQAz2cbgAgZwkcj6OCDhtwGnJjEqX24uqESU'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Hb0T9ZOxp392gHVwNCNptOaeqjZDbtRysKd6hzaBZFH0uQdrebylQ4PglaFJ6scdHZhi5br2jyzqsa9TfAJHuN8JUaUGgwcFpJrpWdvFTtWd8NtaIrFyuKb7DD5p1QDr'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-    'https://www.googleapis.com/auth/userinfo.email',
-    'https://www.googleapis.com/auth/userinfo.profile',
-]
-
-# Google?
-# DRFSO2_PROPRIETARY_BACKEND_NAME = ''
-
-# DRFSO2_URL_NAMESPACE = ''
 
 AUTH_USER_MODEL = 'news_app.User'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
+}
 
 # ====================================================================
 
@@ -115,8 +94,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -131,7 +108,7 @@ WSGI_APPLICATION = 'news.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'news_site',
+        'NAME': 'news',
         'USER': 'host',
         'PASSWORD': 'dunice',
         'HOST': 'localhost',
