@@ -28,7 +28,6 @@ function RegistrationPage() {
   }, [isSucceed])
 
   const googleSuccess = ({ profileObj }) => {
-    console.log(profileObj)
     const profile = {
       email: profileObj.email,
       password: profileObj.googleId,
