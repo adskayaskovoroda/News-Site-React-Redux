@@ -9,13 +9,29 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { loginUser } from '../../store/actions/actions';
 import LoginForm from './loginForm';
+import { useSnackbar } from 'notistack';
+import { ERROR } from '../../store/actions/types';
 
 import './loginPage.css';
 
 function LoginPage() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const isSucceed = useSelector(state => (state.access && state.access.isGranted) || false)
+  const { enqueueSnackbar } = useSnackbar();
+  const isSucceed = useSelector(state => (state.access && state.access.isGranted) || false);
+  const error = useSelector(state => state.error);
+
+  useEffect(() => {
+    if (error.isErrorOccurred) {
+      enqueueSnackbar(error.text, {
+        variant: 'error',
+      });
+      dispatch({
+        type: ERROR,
+        payload: {},
+      });
+    }
+  }, [error]);
 
   const handleSubmit = (values) => {
     dispatch(loginUser(values));

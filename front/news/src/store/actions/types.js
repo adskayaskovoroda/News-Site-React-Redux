@@ -10,3 +10,4 @@ export const SET_ACCESS = 'SET_ACCESS';
 export const SET_POSTS = 'SET_POSTS';
 export const SET_USER = 'SET_USER';
 export const SET_ME = 'SET_ME';
+export const ERROR = 'ERROR';

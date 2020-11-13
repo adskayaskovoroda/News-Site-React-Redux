@@ -17,11 +17,13 @@ import NewsList from '../news/newsList';
 import NewPostDialog from './newPostDialog';
 import {
   requestUser,
-  requestPosts,
   updateUser,
   createPost,
+  requestPosts,
 } from '../../store/actions/actions';
 import { usePagination } from '../usePagination';
+import { useSnackbar } from 'notistack';
+import { ERROR } from '../../store/actions/types';
 
 import './userPage.css';
 
@@ -35,19 +37,29 @@ function UserPage() {
   const posts = useSelector(state => state.posts);
   const user = useSelector(state => state.user);
   const myID = useSelector(state => state.me.id);
+  const { enqueueSnackbar } = useSnackbar();
+  const error = useSelector(state => state.error);
 
   useEffect(() => {
-    dispatch(requestUser(userID));
-    const query = `/?filter=api_user_id&search=${userID}`;
-    dispatch(requestPosts(query));
-  }, []);
+    if (error.isErrorOccurred) {
+      enqueueSnackbar(error.text, {
+        variant: 'error',
+      });
+      dispatch({
+        type: ERROR,
+        payload: {},
+      });
+    }
+  }, [error]);
 
   useEffect(() => {
     setPage(1);
   }, [posts]);
 
   useEffect(() => {
-    dispatch(requestUser(userID))
+    dispatch(requestUser(userID));
+    const query = `/?filter=api_user_id&search=${userID}`;
+    dispatch(requestPosts(query));
   }, [userID]);
 
   const onSaveUser = (values) => {

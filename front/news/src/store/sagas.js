@@ -8,6 +8,7 @@ import {
   CHECK_ACCESS,
   CREATE_POST,
   UPDATE_USER,
+  ERROR,
 } from './actions/types';
 import {
   requestPosts,
@@ -43,14 +44,33 @@ export function* sagaWatcher() {
 }
 
 async function executeAxios(customAxios = axios, config = {}) {
-  const response = await customAxios(config);
-  return response.data;
+  try {
+    const response = await customAxios(config);
+    return response.data;
+  } catch (error) {
+    switch (error.response.status) {
+      case 400:
+      case 401:
+        return {
+          type: ERROR,
+          payload: {
+            isErrorOccurred: true,
+            status: error.response.status,
+            text: error.response.data.detail,
+          },
+        }
+    }
+  }
 }
 
 // =============================  LOGIN  =============================
 
 function* loginUserWorker({ data }) {
   const response = yield call(executeAxios, axiosLogin, {data});
+  if (response.type === ERROR) {
+    yield put(response);
+    return
+  }
   const user = {
     id: response.id,
     full_name: response.full_name,
@@ -74,6 +94,10 @@ function* registrationWorker({ data }) {
     data,
   }
   const response = yield call(executeAxios, axiosUser, config);
+  if (response.type === ERROR) {
+    yield put(response);
+    return
+  }
   yield put({
     type: LOGIN_USER,
     data: {
@@ -133,6 +157,10 @@ function* updateUserWorker({id, data}) {
     },
   }
   const response = yield call(executeAxios, axiosUser, config);
+  if (response.type === ERROR) {
+    yield put(response);
+    return
+  }
   if ('success' in response) {
     const userConfig = {
       url: `/${id}`,
@@ -155,7 +183,7 @@ function* checkAccessWorker() {
     const user = {
       id: access.id,
       full_name: access.full_name,
-      avatar: `${SERVER_URL}${access.avatar}`,
+      avatar: access.avatar,
     }
     yield put(setMe(user));
     yield put(setAccess(access));
@@ -190,4 +218,4 @@ function* createPostWorker({data}) {
 }
 
 // ============================= ERROR HANDLING =============================
-// TODO
+
