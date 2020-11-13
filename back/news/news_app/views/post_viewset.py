@@ -38,15 +38,8 @@ class PostViewSet(viewsets.ModelViewSet):
             image=data['image'],
         )
         for tagTitle in data['tags'].split(' '):
-            tag = self.create_tag(tagTitle)
+            tag, created = Tag.objects.get_or_create(title=tagTitle)
             post.tags.add(tag)
 
         headers = self.get_success_headers(request.data)
         return Response({'success': 'OK'}, status=status.HTTP_201_CREATED, headers=headers)
-
-    def create_tag(self, tagTitle):
-        try:
-            tag = Tag.objects.get(title=tagTitle)
-        except Tag.DoesNotExist:
-            tag = Tag.objects.create(title=tagTitle)
-        return tag
