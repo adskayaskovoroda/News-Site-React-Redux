@@ -19,6 +19,7 @@ import {
   requestUser,
   updateUser,
   createPost,
+  requestPosts,
 } from '../../store/actions/actions';
 import { usePagination } from '../usePagination';
 import { useSnackbar } from 'notistack';
@@ -52,15 +53,13 @@ function UserPage() {
   }, [error]);
 
   useEffect(() => {
-    dispatch(requestUser(userID));
-  }, []);
-
-  useEffect(() => {
     setPage(1);
   }, [posts]);
 
   useEffect(() => {
     dispatch(requestUser(userID));
+    const query = `/?filter=api_user_id&search=${userID}`;
+    dispatch(requestPosts(query));
   }, [userID]);
 
   const onSaveUser = (values) => {

@@ -135,7 +135,6 @@ function* getUserWorker({ id }) {
   };
   const response = yield call(executeAxios, axiosUser, config);
   yield put(setUser(response));
-  yield put(requestPosts(`/?filter=api_user_id&search=${id}`));
 }
 
 // =============================  USER UPDATE  =============================
