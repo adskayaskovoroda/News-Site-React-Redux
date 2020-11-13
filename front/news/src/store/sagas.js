@@ -42,21 +42,20 @@ export function* sagaWatcher() {
   yield takeEvery(UPDATE_USER, updateUserWorker);
 }
 
-// =============================  LOGIN  =============================
-
-async function login(data) {
-  const response = await axiosLogin({data});
+async function executeAxios(customAxios = axios, config = {}) {
+  const response = await customAxios(config);
   return response.data;
 }
 
+// =============================  LOGIN  =============================
+
 function* loginUserWorker({ data }) {
-  const response = yield call(login, data);
+  const response = yield call(executeAxios, axiosLogin, {data});
   const user = {
     id: response.id,
     full_name: response.full_name,
     avatar: response.avatar,
   }
-  console.log(user)
   yield put(setMe(user));
   
   const access = {
@@ -68,17 +67,13 @@ function* loginUserWorker({ data }) {
 
 // =============================  REGISTRATION  =============================
 
-async function register(data) {
-  const response = await axiosUser({
+function* registrationWorker({ data }) {
+  const config = {
     method: 'post',
     url: '/',
     data,
-  });
-  return response.data;
-}
-
-function* registrationWorker({ data }) {
-  const response = yield call(register, data);
+  }
+  const response = yield call(executeAxios, axiosUser, config);
   yield put({
     type: LOGIN_USER,
     data: {
@@ -90,11 +85,6 @@ function* registrationWorker({ data }) {
 
 // =============================  POSTS  =============================
 
-async function getPosts(config) {
-  const response = await axiosPosts(config);
-  return response.data;
-}
-
 function* getPostsWorker({ filter }) {
   yield put(setLoader(true)); // show loader
   const accessToken = yield select(state => state.access.access);
@@ -104,17 +94,12 @@ function* getPostsWorker({ filter }) {
       'Authorization': `${SERVER_AUTH_PREFIX} ${accessToken}`,
     },
   };
-  const response = yield call(getPosts, config);
+  const response = yield call(executeAxios, axiosPosts, config);
   yield put(setPosts(response));
   yield put(setLoader(false)); // hide loader
 }
 
 // =============================  USER  =============================
-
-async function getUser(config) {
-  const response = await axiosUser(config);
-  return response.data;
-}
 
 function* getUserWorker({ id }) {
   const accessToken = yield select(state => state.access.access);
@@ -124,16 +109,11 @@ function* getUserWorker({ id }) {
       'Authorization': `${SERVER_AUTH_PREFIX} ${accessToken}`,
     },
   };
-  const response = yield call(getUser, config);
+  const response = yield call(executeAxios, axiosUser, config);
   yield put(setUser(response));
 }
 
 // =============================  USER UPDATE  =============================
-
-async function updateUser(config) {
-  const response = await axiosUser(config);
-  return response.data;
-}
 
 function* updateUserWorker({id, data}) {
   const myID = yield select(state => state.me.id);
@@ -152,17 +132,15 @@ function* updateUserWorker({id, data}) {
       'Authorization': `${SERVER_AUTH_PREFIX} ${accessToken}`,
     },
   }
-  console.log(id, myID);
-  const response = yield call(updateUser, config);
+  const response = yield call(executeAxios, axiosUser, config);
   if ('success' in response) {
-    console.log('success');
     const userConfig = {
       url: `/${id}`,
       headers: {
         'Authorization': `${SERVER_AUTH_PREFIX} ${accessToken}`,
       },
     }
-    const user = yield call(getUser, userConfig);
+    const user = yield call(executeAxios, axiosUser, userConfig);
     if (id == myID) yield put(setMe(user));
     yield put(setUser(user));
   }
@@ -186,11 +164,6 @@ function* checkAccessWorker() {
 
 // ============================= CREATE POST  =============================
 
-async function createPost(config) {
-  const response = await axiosPosts(config);
-  return response.data;
-}
-
 function* createPostWorker({data}) {
   const myID = yield select(state => state.me.id);
 
@@ -212,7 +185,7 @@ function* createPostWorker({data}) {
       'Authorization': `${SERVER_AUTH_PREFIX} ${accessToken}`,
     }
   }
-  const response = yield call(createPost, config);
+  const response = yield call(executeAxios, axiosPosts, config);
   yield put(requestPosts(`/?filter=api_user_id&search=${myID}`));
 }
 
