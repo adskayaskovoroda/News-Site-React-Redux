@@ -1,0 +1,39 @@
+.user-card {
+    display: grid;
+    grid-template:
+        "avatar data . actions"
+        /auto auto 1fr auto;
+    grid-auto-flow: column;
+    column-gap: 10px;
+    justify-content: left;
+}
+
+.user-card .user-card__avatar {
+    grid-area: avatar;
+    width: 300px;
+    height: 300px;
+}
+
+.user-card .user-data {
+    grid-area: data;
+    display: grid;
+    align-items: center;
+    grid-template-columns: minmax(135px, auto) auto;
+    row-gap: 10px;
+    column-gap: 5px;
+    grid-auto-rows: min-content;
+}
+
+.user-card__actions {
+    grid-area: actions;
+    align-self: flex-end;
+}
+
+.user-data .MuiOutlinedInput-input {
+    height: 7px;
+}
+
+.user-card .edit-actions {
+    display: flex;
+    column-gap: 5px;
+}

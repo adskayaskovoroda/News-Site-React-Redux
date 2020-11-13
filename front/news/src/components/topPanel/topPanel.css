@@ -1,20 +1,23 @@
-.top-panel {
-    flex-grow: 1;
-    margin-bottom: 50px;
+.top-panel .container {
+    display: grid;
+    grid-template:
+        "title search ... profile"
+        /auto  auto   1fr auto;
+    column-gap: 20px;
 }
 
-.top-panel .top-panel__login {
-    margin-left: auto;
+.top-panel .top-panel__title {
+    grid-area: title;
 }
 
-.top-panel .MuiOutlinedInput-input {
-    padding: 8.5px 14px 9.5px;
-}
-
-.top-panel .top-panel__send-search {
-    color: #fff;
-}
-
-.top-panel__home {
+.top-panel .top-panel__title_active {
     cursor: pointer;
+}
+
+.top-panel .top-panel__search {
+    grid-area: search;
+}
+
+.top-panel .top-panel__profile {
+    grid-area: profile;
 }

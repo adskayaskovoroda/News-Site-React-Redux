@@ -1,0 +1,4 @@
+.new-post-form .news-post-form__fields {
+    display: grid;
+    row-gap: 10px;
+}
