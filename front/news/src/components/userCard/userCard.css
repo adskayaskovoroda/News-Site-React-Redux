@@ -32,3 +32,8 @@
 .user-data .MuiOutlinedInput-input {
     height: 7px;
 }
+
+.user-card .edit-actions {
+    display: flex;
+    column-gap: 5px;
+}

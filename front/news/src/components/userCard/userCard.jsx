@@ -75,7 +75,7 @@ function UserCard({ user, handleSubmit }) {
     )
   );
   const EditActions = () => (
-    <div style={{ display: 'flex', columnGap: '5px', }}>
+    <div className="edit-actions">
       <Button
         color="secondary"
         variant="contained"
@@ -96,6 +96,8 @@ function UserCard({ user, handleSubmit }) {
     </div>
   );
 
+  const showChangeControls = editMode && isMe;
+
   return (
     <Card variant="outlined" className="user-card">
       <CardMedia
@@ -107,23 +109,23 @@ function UserCard({ user, handleSubmit }) {
         <div className="user-data">
           <Label>Username:</Label>
           {
-            editMode && isMe
+            showChangeControls
               ? <Field name="username" component={InputField} />
               : <Content>{user.full_name}</Content>
           }
           <Label>Email:</Label>
           {
-            editMode && isMe
+            showChangeControls
               ? <Field name="email" component={InputField} />
               : <Content>{user.email}</Content>
           }
-          {editMode && isMe && (
+          {showChangeControls && (
             <>
               <Label>Avatar:</Label>
               <Field name="avatar" component={ImageField} />
             </>
           )}
-          {editMode && isMe && (
+          {showChangeControls && (
             <>
               <Label>New Password:</Label>
               <Field name="password" component={PasswordField} />
