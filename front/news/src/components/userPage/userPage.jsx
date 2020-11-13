@@ -52,7 +52,6 @@ function UserPage() {
   }, [error]);
 
   useEffect(() => {
-    console.log('Mount user page');
     dispatch(requestUser(userID));
   }, []);
 
