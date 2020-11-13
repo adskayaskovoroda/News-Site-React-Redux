@@ -1,0 +1,38 @@
+.search-form {
+    display: grid;
+    grid-auto-flow: column;
+    column-gap: 10px;
+    grid-auto-columns: max-content;
+    align-items: center;
+}
+
+/* text and icons color in form */
+.search-form .MuiInputBase-root {
+    color: inherit;
+}
+
+/* select icon color */
+.search-form .MuiSelect-icon {
+    color: inherit;
+}
+
+/* no-border and default background color for inputs */
+.search-form .MuiOutlinedInput-notchedOutline {
+    border: none;
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* hover background color for inputs */
+.search-form .MuiInputBase-root:hover .MuiOutlinedInput-notchedOutline {
+    background-color: rgba(255,255,255,0.25);
+}
+
+/* select label settigs */
+.search-form .MuiFormLabel-root {
+    color: inherit;
+    letter-spacing: 2px;
+}
+
+.select-wrapper {
+    width: 100px
+}

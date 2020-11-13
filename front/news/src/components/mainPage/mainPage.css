@@ -1,9 +1,20 @@
+.main-page {
+    display: grid;
+    grid-template:
+        "header"
+        "content";
+    row-gap: 50px;
+}
+
+.main-page .header {
+    grid-area: header;
+}
+
+.main-page .content {
+    grid-area: content;
+}
+
 .pagination {
     display: grid;
     justify-items: center;
-}
-
-.no-posts {
-    font-family: Roboto;
-    font-size: 2rem;
 }

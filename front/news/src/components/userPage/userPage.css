@@ -1,0 +1,31 @@
+.user-page {
+    display: grid;
+    grid-template:
+        "header header       header header  header"
+        "...    ...          ...    ...     ...   " 50px
+        "...    menu         ...    content ...   "
+        "...    add-new-post ...    content ...   "
+        "...    ...          ...    content ...   " 1fr
+        /10px   max-content  10px   auto    10px;
+}
+
+.user-page .header {
+    grid-area: header;
+}
+
+.user-page .menu {
+    grid-area: menu;
+}
+
+.user-page .add-new-post {
+    grid-area: add-new-post;
+    justify-self: center;
+    width: 66px;
+    height: 66px;
+}
+
+.user-page .content {
+    grid-area: content;
+    width: 1000px;
+    margin: 0 auto;
+}
