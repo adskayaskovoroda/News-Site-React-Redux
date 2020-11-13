@@ -24,3 +24,5 @@ yarn-error.log*
 
 .eslintrc.json
 dev_data.js
+
+stash

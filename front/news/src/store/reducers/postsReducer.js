@@ -1,10 +1,10 @@
-import { GET_POSTS } from '../actions/types';
+import { SET_POSTS } from '../actions/types';
 
-const initialState = []
+const initialState = null;
 
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_POSTS:
+    case SET_POSTS:
       return action.payload;
 
     default:

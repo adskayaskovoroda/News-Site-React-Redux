@@ -1,14 +1,15 @@
 from django.db import models
-
+from django.conf import settings
 from .tag import Tag
 from .user import User
 
-class News(models.Model):
+
+class Post(models.Model):
     title = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='post_images')
+    image = models.ImageField(upload_to='post_images', null=True, blank=True)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.title

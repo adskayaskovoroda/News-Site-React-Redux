@@ -1,8 +1,19 @@
-from rest_framework import routers
+from django.conf.urls import url, include
+from rest_framework.routers import SimpleRouter
+from rest_framework_simplejwt.views import TokenRefreshView
+from .views import (
+    PostViewSet,
+    UserViewSet,
+    CustomTokenObtainPairView,
+)
 
-from .views import NewsViewSet
 
-router = routers.SimpleRouter()
-router.register(r'', NewsViewSet)
+router = SimpleRouter()
+router.register('posts', PostViewSet)
+router.register('users', UserViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    url('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    url('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    url('', include(router.urls)),
+]

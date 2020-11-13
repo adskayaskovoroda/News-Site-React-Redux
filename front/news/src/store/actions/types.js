@@ -1,3 +1,12 @@
-export const GET_POSTS = 'GET_POSTS_LIST';
-export const REQUEST_POSTS = 'REQUEST_POSTS';
 export const CHANGE_LOADER = 'CHANGE_LOADER';
+export const CHECK_ACCESS = 'CHECK_ACCESS';
+export const LOGIN_USER = 'LOGIN_USER';
+export const REGISTER_USER = 'REGISTER_USER';
+export const UPDATE_USER = 'UPDATE_USER';
+export const CREATE_POST = 'CREATE_POST';
+export const REQUEST_POSTS = 'REQUEST_POSTS';
+export const REQUEST_USER = 'REQUEST_USER';
+export const SET_ACCESS = 'SET_ACCESS';
+export const SET_POSTS = 'SET_POSTS';
+export const SET_USER = 'SET_USER';
+export const SET_ME = 'SET_ME';

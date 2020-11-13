@@ -1,3 +1,3 @@
-from .news import News
-from .tag import Tag
 from .user import User
+from .tag import Tag
+from .post import Post
