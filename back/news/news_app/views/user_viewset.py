@@ -13,19 +13,20 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsPostOrIsAuthenticated]
 
     def create(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        if self.user_with_email_exists(request.data['email']):
+            return Response({
+                'detail': 'User with the same email already exists.'
+                }, status=status.HTTP_400_BAD_REQUEST)
         User.objects.create_user(**request.data)
-        headers = self.get_success_headers(serializer.data)
-        return Response({'success': 'OK'}, status=status.HTTP_201_CREATED, headers=headers)
+        return Response({'success': 'OK'}, status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, pk=None):
         user = User.objects.get(pk=pk)
         if 'email' in request.data:
             if self.user_with_email_exists(request.data['email'], pk):
                 return Response({
-                    'error': 'User with same email already exists.'
-                }, status=status.HTTP_406_NOT_ACCEPTABLE)
+                    'detail': 'User with same email already exists.'
+                }, status=status.HTTP_400_BAD_REQUEST)
             user.email = request.data['email']
         if 'password' in request.data:
             user.set_password(request.data['password'])
@@ -40,7 +41,7 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             user = User.objects.get(email=email)
             if user.id == pk:
-                return True
-            return False
+                return False
+            return True
         except User.DoesNotExist:
             return False

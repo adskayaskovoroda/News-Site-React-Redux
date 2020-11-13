@@ -9,17 +9,33 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { registerUser, loginUser } from '../../store/actions/actions';
 import RegistrationForm from './registrationForm';
+import { useSnackbar } from 'notistack';
+import { ERROR } from '../../store/actions/types';
 
 import './registrationPage.css';
 
 function RegistrationPage() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { enqueueSnackbar } = useSnackbar();
+  const error = useSelector(state => state.error);
   const isSucceed = useSelector(state => (state.access && state.access.isGranted) || false)
 
   const handleSubmit = (values) => {
     dispatch(registerUser(values));
   }
+
+  useEffect(() => {
+    if (error.isErrorOccurred) {
+      enqueueSnackbar(error.text, {
+        variant: 'error',
+      });
+      dispatch({
+        type: ERROR,
+        payload: {},
+      });
+    }
+  }, [error]);
 
   useEffect(() => {
     if (isSucceed) {

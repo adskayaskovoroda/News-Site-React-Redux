@@ -4,7 +4,8 @@ import { loaderReducer } from './loaderReducer';
 import { accessReducer } from './accessReducer';
 import { userReducer } from './userReducer';
 import { meReducer } from './meReducer';
-import { reducer as formReducer } from 'redux-form'
+import { errorReducer } from './errorReducer';
+import { reducer as formReducer } from 'redux-form';
 
 export default combineReducers({
   posts: postsReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
   access: accessReducer,
   user: userReducer,
   me: meReducer,
+  error: errorReducer,
   form: formReducer,
 });
