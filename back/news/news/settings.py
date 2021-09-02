@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 from datetime import timedelta
-import os
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,6 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'b_8x(ep@py@y3e1c(51n@y=snk!-cokyzqnic1^1sg78opgluv'
+
+# google credentials
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
+GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -66,8 +72,8 @@ AUTH_USER_MODEL = 'news_app.User'
 CORS_ORIGIN_ALLOW_ALL = True
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=2),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 # ====================================================================
@@ -110,11 +116,11 @@ WSGI_APPLICATION = 'news.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'news',
-        'USER': 'host',
-        'PASSWORD': 'dunice',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('NEWS_DB_NAME'),
+        'USER': os.environ.get('NEWS_DB_USER'),
+        'PASSWORD': os.environ.get('NEWS_DB_PASSWORD'),
+        'HOST': os.environ.get('NEWS_DB_HOST', '127.0.0.1'),
+        'PORT': os.environ.get('NEWS_DB_PORT', '5432'),
     }
 }
 

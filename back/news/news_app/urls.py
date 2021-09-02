@@ -5,6 +5,7 @@ from .views import (
     PostViewSet,
     UserViewSet,
     CustomTokenObtainPairView,
+    LoginGoogleUserView,
 )
 
 
@@ -13,6 +14,7 @@ router.register('posts', PostViewSet)
 router.register('users', UserViewSet)
 
 urlpatterns = [
+    path('auth/google/', LoginGoogleUserView.as_view(), name='social_auth_google'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('', include(router.urls)),

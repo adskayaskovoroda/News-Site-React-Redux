@@ -1,32 +1,28 @@
 from rest_framework import serializers
-from django.db.models import Q
-from django.contrib.postgres.aggregates.general import ArrayAgg
-from ..models import Tag, Post, User
+from ..models import Post, Tag
+from .user_serializer import UserSerializer
+
 
 class PostSerializer(serializers.ModelSerializer):
-    author_data = serializers.SerializerMethodField()
-    def get_author_data(self, obj):
-        request = self.context.get('request')
-        author = User.objects.get(pk=obj.author.id)
-        avatar_url = str(author.avatar)
-        if not avatar_url.startswith('https://'):
-            avatar_url = request.build_absolute_uri(author.avatar.url)
-        author_data = {
-            'id': author.id,
-            'email': author.email,
-            'full_name': author.full_name,
-            'avatar': avatar_url,
-        }
-        return author_data
+    author = UserSerializer(read_only=True)
+    tags = serializers.PrimaryKeyRelatedField(many=True, queryset=Tag.objects.all())
 
-    tags_data = serializers.SerializerMethodField()
-    def get_tags_data(self, obj):
-        query = Q(id=-1)
-        for tag in obj.tags.all():
-            query.add(Q(id=tag.id), Q.OR)
-        tags_data = Tag.objects.filter(query).aggregate(arr=ArrayAgg('title'))
-        return tags_data['arr']
+    def run_validation(self, data=serializers.empty):
+        if 'tags' in data:
+            for tag in data.getlist('tags'):
+                Tag.objects.get_or_create(title=tag)
+        return super().run_validation(data)
+
+    def create(self, validated_data):
+        return super().create({
+            **validated_data,
+            'author': self.context.get('request').user
+        })
 
     class Meta:
         model = Post
-        fields = ['id','title','image','content','author_data','tags_data']
+        fields = '__all__'
+        extra_kwargs = {
+            'title': {'required': True},
+            'content': {'required': True}
+        }

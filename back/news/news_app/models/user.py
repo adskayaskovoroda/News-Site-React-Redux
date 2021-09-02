@@ -1,16 +1,11 @@
-import re
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractUser
-from rest_framework.request import Request
 
 
 class UserManager(BaseUserManager):
     def create_user(self, email: str, password: str, **extra_fields):
-        if not email or not password:
+        if not email or (extra_fields.get('oauth_type', User.OAuthType.NONE) == User.OAuthType.NONE and not password):
             raise ValueError('Email and password must be provided')
-
-        extra_fields.setdefault('username', email.split('@')[0])
-        extra_fields.setdefault('avatar', 'user_avatars/default.png')
 
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
@@ -26,24 +21,24 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     email = models.EmailField(max_length=32, unique=True)
     username = models.CharField(max_length=32, null=True, blank=True)
-    first_name = models.CharField(max_length=32, null=True, blank=True)
-    last_name = models.CharField(max_length=32, null=True, blank=True)
-    avatar = models.ImageField(upload_to='user_avatars', null=True, blank=True)
+    avatar = models.ImageField(upload_to='user_avatars', default='user_avatars/default.png')
+    first_name = None
+    last_name = None
+
+    class OAuthType(models.IntegerChoices):
+        NONE = 0
+        GOOGLE = 1
+
+    oauth_type = models.IntegerField(choices=OAuthType.choices, default=OAuthType.NONE)
 
     @property
-    def full_name(self):
-        if self.first_name is None and self.last_name is None:
-            return None
-        return ' '.join(filter(
-            lambda el: bool(el),
-            (self.first_name, self.last_name)
-        ))
+    def nickname(self):
+        return self.username or self.email
 
     def get_avatar(self, request):
-        avatar_url = str(self.avatar)
-        if re.match('^http[s]?://', avatar_url):
-            return avatar_url
-        return request.build_absolute_uri(avatar_url)
+        if self.oauth_type != self.OAuthType.NONE:
+            return self.avatar
+        return request.build_absolute_uri(self.avatar.url)
 
     objects = UserManager()
 

@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from .tag import Tag
 from .user import User
 
