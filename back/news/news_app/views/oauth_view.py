@@ -1,13 +1,14 @@
 import requests
 from typing import TypedDict
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.conf import settings
 from ..models import User
+from ..serializers import UserSerializer
 
 
 class UserInfo(TypedDict):
@@ -17,29 +18,11 @@ class UserInfo(TypedDict):
 
 
 class LoginGoogleUserView(APIView):
-    def get_access_token_from_code(self, code: str) -> str:
-        response = requests.post(
-            'https://oauth2.googleapis.com/token',
-            data={
-                'code': code,
-                'client_id': settings.GOOGLE_CLIENT_ID,
-                'client_secret': settings.GOOGLE_CLIENT_SECRET,
-                'grant_type': 'authorization_code'
-            }
-        )
-
-        if not response.ok:
-            raise AuthenticationFailed()
-
-        response = response.json()
-
-        return f'{response["token_type"]} {response["access_token"]}'
-
     def get_google_user_info(self, token: str) -> UserInfo:
         response = requests.get(
             'https://openidconnect.googleapis.com/v1/userinfo',
             headers={
-                'Authorization': token
+                'Authorization': f'Bearer {token}'
             }
         )
 
@@ -55,18 +38,17 @@ class LoginGoogleUserView(APIView):
         }
 
     def post(self, request: Request) -> Response:
-        user = User.objects.get_or_create(
-            **self.get_google_user_info(
-                self.get_access_token_from_code(request.data['code'])
-            )
+        user_info = self.get_google_user_info(request.data['token'])
+        user, _ = User.objects.get_or_create(
+            email=user_info.pop('email'),
+            defaults={**user_info, 'oauth_type': User.OAuthType.GOOGLE}
         )
+        serializer = UserSerializer(user, context={'request': request})
 
         token = RefreshToken.for_user(user)
 
         return Response({
             'refresh': str(token),
             'access': str(token.access_token),
-            'id': user.id,
-            'nickname': user.nickname,
-            'avatar': user.get_avatar(request)
+            'user': serializer.data,
         }, status=status.HTTP_200_OK)
