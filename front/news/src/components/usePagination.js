@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 
-export const usePagination = (items, pageCap) => {
+export default function usePagination(items, pageCap) {
   const [pageItems, setPageItems] = useState(items.slice(0, pageCap));
   const [page, setPage] = useState(1);
   const pagesAmount = useMemo(() => Math.ceil(items.length / pageCap), [items, pageCap]);
