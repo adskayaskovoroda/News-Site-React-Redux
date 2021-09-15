@@ -1,13 +1,17 @@
 import { SET_USER } from '../actions/types';
+import { loadingStatus } from '../actions/actions';
 
-const initialState = null;
+const initialState = {
+    data: null,
+    loading: loadingStatus.NONE
+}
 
-export const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_USER:
-      return action.payload;
+export default function userReducer(state = initialState, action) {
+    switch (action.type) {
+        case SET_USER:
+            return { ...state, ...action.payload }
 
-    default:
-      return state
-  };
+        default:
+            return state
+    }
 }

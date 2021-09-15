@@ -1,13 +1,17 @@
 import { SET_POSTS } from '../actions/types';
+import { loadingStatus } from '../actions/actions';
 
-const initialState = null;
+const initialState = {
+    data: [],
+    loading: loadingStatus.NONE
+}
 
-export const postsReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_POSTS:
-      return action.payload;
+export default function postsReducer(state = initialState, action) {
+    switch (action.type) {
+        case SET_POSTS:
+            return { ...state, ...action.payload }
 
-    default:
-      return state
-  };
+        default:
+            return state
+    }
 }

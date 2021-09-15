@@ -1,13 +1,17 @@
-import { SET_ME } from '../actions/types';
+import { SET_ME } from "../actions/types";
+import { loadingStatus } from "../actions/actions";
 
-const initialState = null;
+const initialState = {
+    data: null,
+    loading: loadingStatus.NONE
+}
 
-export const meReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case SET_ME:
-      return action.payload;
-
-    default:
-      return state
-  };
+export default function meReducer(state = initialState, action) {
+    switch (action.type) {
+        case SET_ME:
+            return { ...state, ...action.payload }
+        
+        default:
+            return state
+    }
 }
