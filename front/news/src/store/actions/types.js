@@ -1,13 +1,14 @@
-export const CHANGE_LOADER = 'CHANGE_LOADER';
-export const CHECK_ACCESS = 'CHECK_ACCESS';
-export const LOGIN_USER = 'LOGIN_USER';
-export const REGISTER_USER = 'REGISTER_USER';
-export const UPDATE_USER = 'UPDATE_USER';
-export const CREATE_POST = 'CREATE_POST';
-export const REQUEST_POSTS = 'REQUEST_POSTS';
-export const REQUEST_USER = 'REQUEST_USER';
-export const SET_ACCESS = 'SET_ACCESS';
-export const SET_POSTS = 'SET_POSTS';
-export const SET_USER = 'SET_USER';
-export const SET_ME = 'SET_ME';
-export const ERROR = 'ERROR';
+export const SIGN_IN = 'SIGN_IN'
+export const SIGN_UP = 'SIGN_UP/DEFAULT'
+export const OAUTH = 'OAUTH'
+export const FETCH_POSTS = 'FETCH_POSTS'
+export const FETCH_USER = 'FETCH_USER'
+export const FETCH_ME = 'FETCH_ME'
+export const CREATE_POST = 'CREATE_POST'
+export const UPDATE_USER = 'UPDATE_USER'
+
+export const SET_ME = 'SET_ME'
+export const SET_POSTS = 'SET_POSTS'
+export const SET_SUBMITTING_STATUS = 'SET_SUBMITTING_STATUS'
+export const SET_USER = 'SET_USER'
+export const SET_LOADING_STATUS = 'SET_LOADING_STATUS'
