@@ -65,4 +65,4 @@ class UserGetAvatarTestCase(APITestCase):
 
         user = User.objects.create(**data)
 
-        self.assertEqual(user.get_avatar(MockRequest), data['avatar'])
+        self.assertEqual(user.get_avatar(MockRequest), str(data['avatar']))
