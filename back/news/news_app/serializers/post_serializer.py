@@ -9,7 +9,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     def run_validation(self, data=serializers.empty):
         if 'tags' in data:
-            for tag in data.getlist('tags'):
+            for tag in data['tags'].split(','):
                 Tag.objects.get_or_create(title=tag)
         return super().run_validation(data)
 

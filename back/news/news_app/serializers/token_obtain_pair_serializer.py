@@ -1,11 +1,11 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from .user_serializer import UserSerializer
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
         data = super().validate(attrs)
-        data['id'] = self.user.id
-        data['nickname'] = self.user.nickname
-        data['avatar'] = self.user.get_avatar(self.context.get('request'))
+        serializer = UserSerializer(self.user, context={'request': self.context['request']})
+        data['user'] = serializer.data
 
         return data
