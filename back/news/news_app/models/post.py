@@ -4,7 +4,7 @@ from .user import User
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=50)
+    title = models.CharField(max_length=64)
     image = models.ImageField(upload_to='post_images', null=True, blank=True)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.CASCADE)

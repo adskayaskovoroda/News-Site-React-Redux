@@ -37,7 +37,7 @@ class User(AbstractUser):
 
     def get_avatar(self, request):
         if self.oauth_type != self.OAuthType.NONE:
-            return self.avatar
+            return str(self.avatar)
         return request.build_absolute_uri(self.avatar.url)
 
     objects = UserManager()
