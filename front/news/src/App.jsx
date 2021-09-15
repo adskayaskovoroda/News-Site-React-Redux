@@ -1,43 +1,35 @@
 import React from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
+    Router,
+    Switch,
+    Route,
 } from "react-router-dom";
-import { SnackbarProvider } from 'notistack';
-import Access from './components/access';
-import MainPage from './components/mainPage/mainPage';
-import UserPage from './components/userPage/userPage';
-import LoginPage from './components/loginPage/loginPage';
-import RegistrationPage from './components/registrationPage/registrationPage';
-import './app.css';
-
+import PrivateRoute from './components/PrivateRoute';
+import SignInPage from './pages/SignInPage';
+import SignUpPage from './pages/SignUpPage';
+import MainPage from './pages/MainPage';
+import UserPage from './pages/UserPage'
+import history from './utils/history';
 
 function App() {
-  return (
-    <SnackbarProvider maxSnack={3}>
-      <Router>
-        <Switch>
-          <Route path="/user/:userID">
-            <Access>
-              <UserPage />
-            </Access>
-          </Route>
-          <Route path='/login'>
-            <LoginPage />
-          </Route>
-          <Route path='/registration'>
-            <RegistrationPage />
-          </Route>
-          <Route path="/">
-            <Access>
-              <MainPage />
-            </Access>
-          </Route>
-        </Switch>
-      </Router>
-    </SnackbarProvider>
-  );
+    return (
+        <Router history={history}>
+            <Switch>
+                <Route path='/signin'>
+                    <SignInPage />
+                </Route>
+                <Route path='/signup'>
+                    <SignUpPage />
+                </Route>
+                <PrivateRoute path='/user/:userId'>
+                    <UserPage />
+                </PrivateRoute>
+                <PrivateRoute path='/'>
+                    <MainPage />
+                </PrivateRoute>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
