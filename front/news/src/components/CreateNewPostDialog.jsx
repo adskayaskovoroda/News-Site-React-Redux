@@ -31,9 +31,9 @@ export default function CreateNewPostDialog({ open, onClose, onSubmit }) {
         closeForm()
     }
 
-    const addTag = useCallback(tag => setTags(prev => [...prev, { key: Date.now(), label: tag }]))
-    const deleteTag = useCallback(key => setTags(prev => prev.filter(tag => tag.key !== key)))
-    const normalizer = useCallback(value => value.slice(0, 20).replace(',','').trim())
+    const addTag = useCallback(tag => setTags(prev => [...prev, { key: Date.now(), label: tag }]), [])
+    const deleteTag = useCallback(key => setTags(prev => prev.filter(tag => tag.key !== key)), [])
+    const normalizer = useCallback(value => value.slice(0, 20).replace(',','').trim(), [])
 
     return (
         <Dialog open={open} fullWidth>
