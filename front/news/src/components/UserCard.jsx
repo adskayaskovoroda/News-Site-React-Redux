@@ -1,7 +1,7 @@
 import React from 'react'
-import { Card, CardMedia, CardContent, Typography, IconButton, makeStyles } from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit';
+import { Card, CardMedia, CardContent, Typography, makeStyles } from '@material-ui/core'
 import AddPostButton from './AddPostButton';
+import EditButton from './EditButton';
 
 const useStyles = makeStyles(theme => ({
     userCard: {
@@ -32,18 +32,6 @@ const useStyles = makeStyles(theme => ({
         transform: 'translate(-50%, -50%)'
     }
 }))
-
-function EditButton({ className, onClick }) {
-    return (
-        <IconButton
-            size='small'
-            className={className}
-            onClick={onClick}
-        >
-            <EditIcon fontSize='small' color='primary' />
-        </IconButton>
-    )
-}
 
 export default function UserCard({ user, edit = false, onNewPost, onEditProfile }) {
     const classes = useStyles()
