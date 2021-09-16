@@ -53,9 +53,11 @@ export default function PostCard({ post }) {
             }
             <CardContent className={classes.content}>
                 <Typography paragraph gutterBottom variant='h5' noWrap>{post.title}</Typography>
-                {post.content.split('\n\n').filter(value => value).map((value, index) =>
-                    <Typography paragraph key={index}>{value.replace(/^\n|\n$/g, '')}</Typography>
-                )}
+                {   // Split by \n\n to different paragraphs
+                    post.content.split('\n\n').filter(value => value).map((value, index) =>
+                        <Typography paragraph key={index}>{value.replace(/^\n|\n$/g, '')}</Typography>
+                    )
+                }
             </CardContent>
             {post.tags.length !== 0 && 
                 <>
